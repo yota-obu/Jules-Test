@@ -63,25 +63,45 @@ def generate_password_route():
 
         app.logger.info(f"Character set constructed with length: {len(character_set)}")
 
-        password_list = []
+        final_password = ""
 
-        if transformed_base_word:
-            if len(transformed_base_word) >= length:
-                password_list = list(transformed_base_word[:length])
-                app.logger.info(f"Base word is longer than or equal to desired length. Using truncated base word: {''.join(password_list)}")
-            else:
-                password_list = list(transformed_base_word)
-                remaining_length = length - len(password_list)
-                for _ in range(remaining_length):
-                    password_list.append(random.choice(character_set))
-                app.logger.info(f"Base word used. Filled remaining {remaining_length} characters randomly.")
+        if not transformed_base_word:
+            # No base word, generate fully random password
+            password_list = [random.choice(character_set) for _ in range(length)]
+            final_password = "".join(password_list)
+            app.logger.info(f"No base word. Generated {length} random characters: {final_password}")
         else:
-            for _ in range(length):
-                password_list.append(random.choice(character_set))
-            app.logger.info(f"No base word. Generated {length} random characters.")
+            # Base word is present
+            num_additional_chars = length - len(transformed_base_word)
 
-        random.shuffle(password_list)
-        final_password = "".join(password_list)
+            if num_additional_chars < 0:
+                # Transformed base word is longer than desired length, truncate it
+                final_password = transformed_base_word[:length]
+                app.logger.info(f"Transformed base word ('{transformed_base_word}') is longer than length {length}. Truncated to: {final_password}")
+            else:
+                # Transformed base word is shorter or equal to length
+                password_chars_list = list(transformed_base_word)
+                
+                if num_additional_chars > 0:
+                    additional_chars = [random.choice(character_set) for _ in range(num_additional_chars)]
+                    app.logger.info(f"Generated {num_additional_chars} additional characters: {additional_chars}")
+
+                    # Insert additional characters randomly into the base word
+                    for char_to_insert in additional_chars:
+                        # Randomly select an insertion point (index)
+                        # len(password_chars_list) + 1 possible insertion slots
+                        insertion_point = random.randint(0, len(password_chars_list))
+                        password_chars_list.insert(insertion_point, char_to_insert)
+                    app.logger.info(f"Password list after inserting additional chars: {password_chars_list}")
+                
+                final_password = "".join(password_chars_list)
+                # Ensure the final password does not exceed the requested length,
+                # which could happen if the base_word itself was already long
+                # and then more characters were added. This case should be rare
+                # given the logic, but as a safeguard:
+                if len(final_password) > length:
+                    final_password = final_password[:length]
+
 
         app.logger.info(f"Password generated successfully: {final_password}")
         return jsonify({"password": final_password}), 200

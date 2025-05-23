@@ -7,45 +7,70 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>パスワード生成ツール</h1>
+    <div class="container">
+        <h1>パスワード生成ツール</h1>
 
-    <form id="password_form">
-        <div>
-            <label>使用する文字の種類：</label><br>
-            <input type="checkbox" id="char_uppercase" name="char_type" value="uppercase">
-            <label for="char_uppercase">英語（大文字）</label><br>
-            <input type="checkbox" id="char_lowercase" name="char_type" value="lowercase">
-            <label for="char_lowercase">英語（小文字）</label><br>
-            <input type="checkbox" id="char_numbers" name="char_type" value="numbers">
-            <label for="char_numbers">数字</label><br>
-            <input type="checkbox" id="char_symbols" name="char_type" value="symbols">
-            <label for="char_symbols">記号</label><br>
+        <form id="password_form">
+            <fieldset>
+                <legend>使用する文字の種類</legend>
+                <div class="form-group char-options">
+                    <div>
+                        <input type="checkbox" id="char_uppercase" name="char_type" value="uppercase">
+                        <label for="char_uppercase">英語（大文字）</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="char_lowercase" name="char_type" value="lowercase">
+                        <label for="char_lowercase">英語（小文字）</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="char_numbers" name="char_type" value="numbers">
+                        <label for="char_numbers">数字</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="char_symbols" name="char_type" value="symbols">
+                        <label for="char_symbols">記号</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>文字数の選択</legend>
+                <div class="form-group length-options">
+                    <div>
+                        <input type="radio" id="length_8" name="length" value="8" checked>
+                        <label for="length_8">8</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="length_10" name="length" value="10">
+                        <label for="length_10">10</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="length_12" name="length" value="12">
+                        <label for="length_12">12</label>
+                    </div>
+                    <div class="length-other-group">
+                        <input type="radio" id="length_other" name="length" value="other">
+                        <label for="length_other">その他:</label>
+                        <input type="number" id="length_custom" name="length_custom" min="1" style="width: 60px;" disabled>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>オプション</legend>
+                <div class="form-group">
+                    <label for="base_word">指定の単語：</label>
+                    <input type="text" id="base_word" name="base_word">
+                </div>
+            </fieldset>
+
+            <button type="button" id="generate_button">パスワード生成</button>
+        </form>
+
+        <div class="form-group result-group">
+            <label for="password_display">生成されたパスワード：</label>
+            <textarea id="password_display" readonly rows="3"></textarea>
         </div>
-
-        <div>
-            <label>文字数の選択：</label><br>
-            <input type="radio" id="length_8" name="length" value="8">
-            <label for="length_8">8</label><br>
-            <input type="radio" id="length_10" name="length" value="10">
-            <label for="length_10">10</label><br>
-            <input type="radio" id="length_12" name="length" value="12">
-            <label for="length_12">12</label><br>
-            <input type="radio" id="length_other" name="length" value="other">
-            <label for="length_other">その他</label>
-            <input type="text" id="length_custom" name="length_custom" style="width: 40px;"><br>
-        </div>
-
-        <div>
-            <label for="base_word">指定の単語：</label><br>
-            <input type="text" id="base_word" name="base_word"><br>
-        </div>
-
-        <button type="button" id="generate_button">パスワード生成</button>
-    </form>
-
-    <div>
-        <label for="password_display">生成されたパスワード：</label>
-        <textarea id="password_display" readonly></textarea>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>

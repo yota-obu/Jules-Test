@@ -1,1 +1,147 @@
-/* This is an empty CSS file */
+/* 1. Overall Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 600px;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 2. Headings */
+h1 {
+    text-align: center;
+    color: #007bff; /* Primary theme color */
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+/* 3. Form Elements */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"],
+input[type="number"],
+textarea#password_display {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for width: 100% */
+    font-size: 1em;
+}
+
+input[type="number"]#length_custom {
+    display: inline-block;
+    width: 70px; /* More specific width */
+    margin-left: 5px;
+    padding: 8px;
+}
+
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 4px;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.char-options div,
+.length-options div {
+    margin-bottom: 10px; /* Space between options */
+    display: flex; /* Align items in a row */
+    align-items: center; /* Vertically align items */
+}
+
+.char-options input[type="checkbox"],
+.length-options input[type="radio"] {
+    margin-right: 8px;
+    accent-color: #007bff; /* Color the checkbox/radio button itself */
+}
+
+.char-options label,
+.length-options label {
+    font-weight: normal; /* Labels for checkboxes/radios are not bold */
+    margin-bottom: 0; /* Remove bottom margin for these labels */
+}
+
+.length-other-group label[for="length_other"] {
+    margin-right: 5px;
+}
+
+
+/* 4. Button (button#generate_button) */
+button#generate_button {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add some space above the button */
+}
+
+button#generate_button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* 5. Password Display Area (#password_display) */
+textarea#password_display {
+    font-family: 'Courier New', Courier, monospace; /* Monospace font */
+    background-color: #e9ecef; /* Slightly different background for readonly */
+    color: #495057;
+    height: auto; /* Adjust height based on content, or set fixed like rows="3" in HTML */
+    resize: vertical; /* Allow vertical resize */
+}
+
+/* Responsive adjustments (optional, but good practice) */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        margin: 20px;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    input[type="text"],
+    input[type="number"],
+    textarea#password_display,
+    button#generate_button {
+        font-size: 0.95em;
+    }
+
+    .char-options div,
+    .length-options div {
+       flex-direction: row; /* Keep as row, or column if preferred on small screens */
+       align-items: center;
+    }
+}
