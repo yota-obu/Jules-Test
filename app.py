@@ -45,7 +45,20 @@ def generate_password_route():
         }
 
         transformed_base_word = "".join(transform_map.get(char, char) for char in base_word)
-        app.logger.info(f"Base word transformed: '{base_word}' -> '{transformed_base_word}'")
+        app.logger.info(f"Base word after fixed char transformation: '{base_word}' -> '{transformed_base_word}'")
+
+        # Random case transformation for alphabetic characters in transformed_base_word
+        if transformed_base_word: # Only apply if base_word is not empty
+            temp_word_list = list(transformed_base_word)
+            for i, char in enumerate(temp_word_list):
+                if char.isalpha():  # Target only alphabetic characters
+                    if random.random() < 0.4:  # 40% probability to flip case
+                        if char.islower():
+                            temp_word_list[i] = char.upper()
+                        else:
+                            temp_word_list[i] = char.lower()
+            transformed_base_word = "".join(temp_word_list)
+            app.logger.info(f"Base word after random case transformation: {transformed_base_word}")
 
         character_set = ""
         if char_types.get('uppercase'):
@@ -71,18 +84,24 @@ def generate_password_route():
             final_password = "".join(password_list)
             app.logger.info(f"No base word. Generated {length} random characters: {final_password}")
         else:
-            # Base word is present
-            num_additional_chars = length - len(transformed_base_word)
-
-            if num_additional_chars < 0:
-                # Transformed base word is longer than desired length, truncate it
-                final_password = transformed_base_word[:length]
-                app.logger.info(f"Transformed base word ('{transformed_base_word}') is longer than length {length}. Truncated to: {final_password}")
+            # Base word is present, apply further processing
+            # Ensure transformed_base_word is not empty after potential transformations before proceeding
+            if not transformed_base_word: # If base word became empty (e.g. only spaces, though unlikely with current form)
+                password_list = [random.choice(character_set) for _ in range(length)]
+                final_password = "".join(password_list)
+                app.logger.info(f"Base word was empty or became empty. Generated {length} random characters: {final_password}")
             else:
-                # Transformed base word is shorter or equal to length
-                password_chars_list = list(transformed_base_word)
-                
-                if num_additional_chars > 0:
+                num_additional_chars = length - len(transformed_base_word)
+
+                if num_additional_chars < 0:
+                    # Transformed base word is longer than desired length, truncate it
+                    final_password = transformed_base_word[:length]
+                    app.logger.info(f"Transformed base word ('{transformed_base_word}') is longer than length {length}. Truncated to: {final_password}")
+                else:
+                    # Transformed base word is shorter or equal to length
+                    password_chars_list = list(transformed_base_word)
+                    
+                    if num_additional_chars > 0:
                     additional_chars = [random.choice(character_set) for _ in range(num_additional_chars)]
                     app.logger.info(f"Generated {num_additional_chars} additional characters: {additional_chars}")
 

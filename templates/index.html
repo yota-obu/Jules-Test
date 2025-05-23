@@ -10,23 +10,77 @@
     <div class="container">
         <h1>パスワード生成ツール</h1>
 
+        <div class="usage-guide">
+            <button class="accordion-header">このツールの使い方 ▼</button>
+            <div class="accordion-content">
+                <h4>使用方法</h4>
+                <ol>
+                    <li>
+                        <strong>使用する文字の種類を選択:</strong>
+                        <p>「英語（大文字）」「英語（小文字）」「数字」「記号」の中から、パスワードに含めたい文字の種類を1つ以上選択します。</p>
+                    </li>
+                    <li>
+                        <strong>文字数を選択:</strong>
+                        <p>希望するパスワードの長さを「8」「10」「12」から選択するか、「その他」を選んで任意の数値を入力します。（「その他」を選択した場合、隣の入力欄が有効になります）</p>
+                    </li>
+                    <li>
+                        <strong>指定の単語を入力 (任意):</strong>
+                        <p>パスワードに含めたい特定の単語がある場合は入力します。未入力でも構いません。単語内の特定の文字は数字に変換され (例: l→1, o→0)、さらに一部のアルファベットは大文字・小文字がランダムに変換されることがあります。</p>
+                    </li>
+                    <li>
+                        <strong>「パスワード生成」ボタンをクリック:</strong>
+                        <p>上記の設定が完了したら、このボタンをクリックします。</p>
+                    </li>
+                    <li>
+                        <strong>生成されたパスワードを確認:</strong>
+                        <p>ボタンの下にあるテキストエリアに、生成されたパスワードが表示されます。</p>
+                    </li>
+                </ol>
+                <h4>入力例と出力例</h4>
+                <p><em>注意: 以下の出力例は、ランダム性があるため、実際に生成されるパスワードとは異なります。特に、指定単語内のランダムな大文字・小文字変換や、追加文字の挿入位置によって結果は多様になります。</em></p>
+                <p><strong>例1:</strong></p>
+                <ul>
+                    <li>入力:
+                        <ul>
+                            <li>使用する文字の種類: 英語（大文字）, 英語（小文字）, 数字</li>
+                            <li>文字数: 10</li>
+                            <li>指定の単語: `apple`</li>
+                        </ul>
+                    </li>
+                    <li>出力例の可能性: `APp1E_r4Nd` (変換後 `app1e` の `a` が `A` に、`p` が `P` にランダム変換され、`_`,`r`,`4`,`N`,`d` がランダムに追加・挿入された場合。実際の出力はこれとは異なります)</li>
+                </ul>
+                <p><strong>例2:</strong></p>
+                <ul>
+                    <li>入力:
+                        <ul>
+                            <li>使用する文字の種類: 英語（小文字）, 数字, 記号</li>
+                            <li>文字数: 12</li>
+                            <li>指定の単語: `soccer`</li>
+                        </ul>
+                    </li>
+                    <li>出力例の可能性: `s0c#CER@t5!` (変換後 `s0ccer` の `c` が `C` に、`e` が `E` に、`r` が `R` にランダム変換され、`#`,`@`,`t`,`5`,`!` がランダムに追加・挿入された場合。実際の出力はこれとは異なります)</li>
+                </ul>
+                <p>指定単語の文字の順序は保持され、追加文字はその間や前後にランダムに挿入されます。</p>
+            </div>
+        </div>
+
         <form id="password_form">
             <fieldset>
                 <legend>使用する文字の種類</legend>
                 <div class="form-group char-options">
-                    <div>
+                    <div class="custom-control">
                         <input type="checkbox" id="char_uppercase" name="char_type" value="uppercase">
                         <label for="char_uppercase">英語（大文字）</label>
                     </div>
-                    <div>
+                    <div class="custom-control">
                         <input type="checkbox" id="char_lowercase" name="char_type" value="lowercase">
                         <label for="char_lowercase">英語（小文字）</label>
                     </div>
-                    <div>
+                    <div class="custom-control">
                         <input type="checkbox" id="char_numbers" name="char_type" value="numbers">
                         <label for="char_numbers">数字</label>
                     </div>
-                    <div>
+                    <div class="custom-control">
                         <input type="checkbox" id="char_symbols" name="char_type" value="symbols">
                         <label for="char_symbols">記号</label>
                     </div>
@@ -36,29 +90,29 @@
             <fieldset>
                 <legend>文字数の選択</legend>
                 <div class="form-group length-options">
-                    <div>
+                    <div class="custom-control">
                         <input type="radio" id="length_8" name="length" value="8" checked>
                         <label for="length_8">8</label>
                     </div>
-                    <div>
+                    <div class="custom-control">
                         <input type="radio" id="length_10" name="length" value="10">
                         <label for="length_10">10</label>
                     </div>
-                    <div>
+                    <div class="custom-control">
                         <input type="radio" id="length_12" name="length" value="12">
                         <label for="length_12">12</label>
                     </div>
-                    <div class="length-other-group">
+                    <div class="length-other-group custom-control"> <!-- Added custom-control here too for alignment -->
                         <input type="radio" id="length_other" name="length" value="other">
                         <label for="length_other">その他:</label>
-                        <input type="number" id="length_custom" name="length_custom" min="1" style="width: 60px;" disabled>
+                        <input type="number" id="length_custom" name="length_custom" min="1" disabled>
                     </div>
                 </div>
             </fieldset>
 
             <fieldset>
                 <legend>オプション</legend>
-                <div class="form-group">
+                <div class="form-group"> <!-- Keep form-group for general spacing -->
                     <label for="base_word">指定の単語：</label>
                     <input type="text" id="base_word" name="base_word">
                 </div>
@@ -67,7 +121,7 @@
             <button type="button" id="generate_button">パスワード生成</button>
         </form>
 
-        <div class="form-group result-group">
+        <div class="form-group result-group"> <!-- Keep form-group for general spacing -->
             <label for="password_display">生成されたパスワード：</label>
             <textarea id="password_display" readonly rows="3"></textarea>
         </div>

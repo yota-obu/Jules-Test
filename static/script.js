@@ -87,4 +87,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('input[name="length"]:checked')?.value !== 'other') {
         lengthCustomInput.disabled = true;
     }
+
+    // Accordion functionality for usage guide
+    const accordionHeader = document.querySelector('.accordion-header');
+    if (accordionHeader) {
+        const accordionContent = accordionHeader.nextElementSibling;
+        // Initially hide the content
+        if (accordionContent) {
+            accordionContent.style.display = 'none';
+            accordionHeader.textContent = 'このツールの使い方 ▼'; // Indicate expandable
+        }
+
+        accordionHeader.addEventListener('click', () => {
+            if (accordionContent) {
+                if (accordionContent.style.display === 'none' || accordionContent.style.display === '') {
+                    accordionContent.style.display = 'block';
+                    accordionHeader.classList.add('active');
+                    accordionHeader.textContent = 'このツールの使い方 ▲'; // Indicate collapsible
+                } else {
+                    accordionContent.style.display = 'none';
+                    accordionHeader.classList.remove('active');
+                    accordionHeader.textContent = 'このツールの使い方 ▼'; // Indicate expandable
+                }
+            }
+        });
+    }
 });
